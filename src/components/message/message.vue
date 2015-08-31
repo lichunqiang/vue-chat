@@ -83,23 +83,28 @@
 </template>
 
 <script>
-var avatar = require('filters/avatar')
 var time = require('filters/date')
+
 export default {
-  props: {
-    required: true,
-    type: Object
-  },
+  props: ['store'],
 
   filters: {
-    avatar: avatar,
+    avatar: function(item) {
+      if (item.self) {
+          return this.store.user.img;
+      }
+      let session = this.store.sessionList[this.store.sessionId],
+          user = this.store.userList.filter(user => user.id === session.userId)[0];
+      
+      return user && user.img;
+    },
     time: time
   },
 
   directives: {
     'scroll-bottom': function() {
-      Vue.nextTick(function() {
-        //this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight
+      Vue.nextTick(() => {
+        this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight;
       });
     }
   }

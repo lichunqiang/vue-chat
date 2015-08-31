@@ -48,18 +48,10 @@
 <script>
 
 export default {
-  props: {
-    store: {
-      required: true,
-      type: Function,
-      default: {
-        user: {img: 'xxx', 'name': 'dads'}
-      }
-    }
-  },
+  props: ['store'],
 
   ready() {
-    console.log(this)
+    console.log(this.search)
   },
 
   data() {

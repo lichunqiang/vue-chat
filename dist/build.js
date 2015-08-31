@@ -360,13 +360,15 @@
 	var store = __webpack_require__(12);
 	
 	exports['default'] = {
-	  data: function data() {
-	    store: store.fetch();
+	  data: {
+	    store: store.fetch(),
+	    name: 'vue-chat'
 	  },
 	
 	  ready: function ready() {
 	    var _this = this;
 	
+	    console.log(this.store);
 	    this.$on('search', function (search) {
 	      _this.$broadcast('search', search);
 	    });
@@ -510,18 +512,10 @@
 	  value: true
 	});
 	exports['default'] = {
-	  props: {
-	    store: {
-	      required: true,
-	      type: Function,
-	      'default': {
-	        user: { img: 'xxx', 'name': 'dads' }
-	      }
-	    }
-	  },
+	  props: ['store'],
 	
 	  ready: function ready() {
-	    console.log(this);
+	    console.log(this.search);
 	  },
 	
 	  data: function data() {
@@ -565,11 +559,12 @@
 	  value: true
 	});
 	exports['default'] = {
-	  props: {
-	    store: {
-	      required: true,
-	      type: Object
-	    }
+	  props: ['store'],
+	
+	  data: function data() {
+	    return {
+	      search: ''
+	    };
 	  },
 	
 	  ready: function ready() {
@@ -588,7 +583,7 @@
 	
 	  methods: {
 	    select: function select(index) {
-	      this.score.sessionId = index;
+	      this.store.sessionId = index;
 	    }
 	  }
 	};
@@ -621,12 +616,7 @@
 	  value: true
 	});
 	exports['default'] = {
-	  props: {
-	    store: {
-	      required: true,
-	      type: Object
-	    }
-	  },
+	  props: ['store'],
 	
 	  data: function data() {
 	    return {
@@ -675,23 +665,32 @@
 	Object.defineProperty(exports, '__esModule', {
 	  value: true
 	});
-	var avatar = __webpack_require__(33);
 	var time = __webpack_require__(13);
+	
 	exports['default'] = {
-	  props: {
-	    required: true,
-	    type: Object
-	  },
+	  props: ['store'],
 	
 	  filters: {
-	    avatar: avatar,
+	    avatar: function avatar(item) {
+	      if (item.self) {
+	        return this.store.user.img;
+	      }
+	      var session = this.store.sessionList[this.store.sessionId],
+	          user = this.store.userList.filter(function (user) {
+	        return user.id === session.userId;
+	      })[0];
+	
+	      return user && user.img;
+	    },
 	    time: time
 	  },
 	
 	  directives: {
 	    'scroll-bottom': function scrollBottom() {
+	      var _this = this;
+	
 	      Vue.nextTick(function () {
-	        //this.el.scrollTop = this.el.scrollHeight - this.el.clientHeight
+	        _this.el.scrollTop = _this.el.scrollHeight - _this.el.clientHeight;
 	      });
 	    }
 	  }
@@ -699,30 +698,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 33 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	exports["default"] = function (item) {
-	  if (item.self) {
-	    return undefined.store.user.img;
-	  }
-	  var session = undefined.store.sessionList[undefined.session.sessionId],
-	      user = undefined.store.userList.filter(function (user) {
-	    return user.id === session.userId;
-	  })[0];
-	
-	  return user && user.img;
-	};
-	
-	module.exports = exports["default"];
-
-/***/ },
+/* 33 */,
 /* 34 */
 /***/ function(module, exports) {
 
@@ -732,7 +708,7 @@
 /* 35 */
 /***/ function(module, exports) {
 
-	module.exports = "<div>\n  <div class=\"sidebar\" v-on=\"click: test\">\n    <card store=\"{{store}}\"></card>\n    <list store=\"{{store}}\"></list>\n  </div>\n  <div class=\"main\">\n    <message store=\"{{store}}\"></message>\n    <text store=\"{{store}}\"></text>\n  </div>\n</div>";
+	module.exports = "<div>\n  <div class=\"sidebar\">\n    <card store=\"{{store}}\"></card>\n    <list store=\"{{store}}\"></list>\n  </div>\n  <div class=\"main\">\n    <message store=\"{{store}}\"></message>\n    <text store=\"{{store}}\"></text>\n  </div>\n</div>";
 
 /***/ },
 /* 36 */

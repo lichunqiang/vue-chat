@@ -31,7 +31,7 @@
 
 <template>
 <div>
-  <div class="sidebar" v-on="click: test">
+  <div class="sidebar">
     <card store="{{store}}"></card>
     <list store="{{store}}"></list>
   </div>
@@ -46,11 +46,13 @@
 var store = require('./store')
 
 export default {
-  data() {
-    store: store.fetch() 
+  data: {
+    store: store.fetch(),
+    name: 'vue-chat'
   },
 
   ready() {
+    console.log(this.store)
     this.$on('search', (search) => {
       this.$broadcast('search', search)
     })

@@ -23,12 +23,7 @@
 
 <script>
 export default {
-  props: {
-    store: {
-      required: true,
-      type: Object
-    }
-  },
+  props: ['store'],
 
   data() {
     return {
@@ -39,12 +34,12 @@ export default {
   methods: {
     inputing (e) {
       if (e.ctrlKey && e.keyCode === 13 && this.text.length) {
-          this.store.sessionList[this.store.sessionId].messages.push({
-              text: this.text,
-              date: new Date(),
-              self: true
-          });
-          this.text = '';
+        this.store.sessionList[this.store.sessionId].messages.push({
+            text: this.text,
+            date: new Date(),
+            self: true
+        });
+        this.text = '';
       }
     }
   }

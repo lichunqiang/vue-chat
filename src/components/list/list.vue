@@ -44,10 +44,11 @@
 <script>
   
 export default {
-  props: {
-    store: {
-      required: true,
-      type: Object
+  props: ['store'],
+
+  data() {
+    return {
+      search: ''
     }
   },
 
@@ -65,7 +66,7 @@ export default {
 
   methods: {
     select(index) {
-      this.score.sessionId = index
+      this.store.sessionId = index
     }
   }
 }
