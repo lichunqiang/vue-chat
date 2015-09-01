@@ -52,7 +52,6 @@ export default {
   },
 
   ready() {
-    console.log(this.store)
     this.$on('search', (search) => {
       this.$broadcast('search', search)
     })

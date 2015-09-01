@@ -50,10 +50,6 @@
 export default {
   props: ['store'],
 
-  ready() {
-    console.log(this.search)
-  },
-
   data() {
     return {
       search: ''
